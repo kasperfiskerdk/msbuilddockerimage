@@ -1,0 +1,45 @@
+name: runner test
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: [self-hosted, Windows, X64]
+        container:
+            image: ghcr.io/kasperfiskerdk/msbuilddockerimage:0.1
+
+        steps:
+            - name: Checking out branch from project simpleton
+              uses: actions/checkout@v4
+
+            - name: Creating build directroy
+              run: mkdir build
+
+            - name: Running CMake for build of Simpleton project
+              run: cmake -S . -B ./build -GNinja -DCMAKE_BUILD_TYPE=Release
+
+            - name: Compiling Simpleton
+              run: cmake --build ./build --target all
+
+            - name: Staging binary for Simpleton
+              run: cmake --install ./build --prefix ./build/staging
+
+            - name: Packaging binaries for simpleton
+              run: cpack -B ./build --config ./build/CPackConfig.cmake -C Release
+
+            - uses: actions/upload-artifact@v3
+              with:
+                name: simpleton-0.0.1-installer-script
+                path: build/simpleton-0.0.1-Linux.sh
+                retention-days: 5
+                if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
+
+            - uses: actions/upload-artifact@v3
+              with:
+                name: simpleton-0.0.1-installer-archive
+                path: build/simpleton-0.0.1-Linux.tar.gz
+                retention-days: 5
+                if-no-files-found: warn # 'error', 'warn' or 'ignore'
