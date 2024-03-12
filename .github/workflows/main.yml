@@ -8,6 +8,8 @@ on:
 jobs:
     build:
         runs-on: [self-hosted, Windows, X64]
+
+        # On windows the following to lines specifying which image the runner should use, is not supported?!!
         # container:
         #     image: ghcr.io/kasperfiskerdk/msbuilddockerimage:0.2
 
@@ -15,8 +17,6 @@ jobs:
             - name: Checking out branch from project hello
               uses: actions/checkout@v4
 
-            - name: Pulling docker image
-              run: docker pull ghcr.io/kasperfiskerdk/win64_msvc2022:0.2
+            - name: Pulling windows-with-build-tools docker image and build hello
+              run: docker run --pull missing -v .:C:\project ghcr.io/kasperfiskerdk/win64_msvc2022:0.2 ./build_hello.bat
 
-            - name: Build hello in docker image
-              run: docker run -v .:C:\project win64_msvc2022:0.2 ./build_hello.bat
