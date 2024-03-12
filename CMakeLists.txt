@@ -29,9 +29,9 @@ find_package(Qt5 COMPONENTS
 add_executable(hello
     src/main.cpp
     src/main.qrc
-    go.bat
     .github/workflows/main.yml
     docker/Dockerfile
+    build_hello.bat
 )
 
 target_link_libraries(hello PRIVATE
