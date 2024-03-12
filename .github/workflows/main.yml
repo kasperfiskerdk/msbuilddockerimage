@@ -8,11 +8,11 @@ on:
 jobs:
     build:
         runs-on: [self-hosted, Windows, X64]
-        container:
-            image: ghcr.io/kasperfiskerdk/msbuilddockerimage:0.2
+        # container:
+        #     image: ghcr.io/kasperfiskerdk/msbuilddockerimage:0.2
 
         steps:
-            - name: Checking out branch from project simpleton
+            - name: Checking out branch from project hello
               uses: actions/checkout@v4
 
             - name: Pulling docker image
