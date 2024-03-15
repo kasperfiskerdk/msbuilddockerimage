@@ -18,5 +18,5 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Pulling windows-with-build-tools docker image and build hello
-              run: docker run --pull missing -v .:C:\project ghcr.io/kasperfiskerdk/win64_msvc2022:0.2 ./build_hello.bat
+              run: docker run --pull missing -v .:C:\project ghcr.io/kasperfiskerdk/win64_msvc2022:0.2 ./build_hello.ps1
 

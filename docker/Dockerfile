@@ -1,20 +1,20 @@
 # Build container:
-# > docker build --tag win64_msvc2022:0.2 ./docker
+# > docker build --tag win64_msvc2022:0.3 ./docker
 
 # Run container:
-# > docker run -it -v c:/Users/fiske/projects/msbuilddockerimage/:c:/project win64_msvc2022:0.1
+# > docker run -it -v c:/Users/fiske/projects/msbuilddockerimage/:c:/project win64_msvc2022:0.3
 # -i interactive
 # -t make tty
 
 # Tag container for github container registry
-# > docker --tag win64_msvc2022:0.2 ghcr.io/kasperfiskerdk/win64_msvc2022:0.2
+# > docker tag win64_msvc2022:0.3 ghcr.io/kasperfiskerdk/win64_msvc2022:0.3
 
 # Login to GitHub Container Registry using PAT (Personal Access Token)
 # > $env:GHCR_PAT='ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxx'
-# > $env:GHCR_PAT | docker login ghcr.io -u <username> --password-stdin
+# > $env:GHCR_PAT | docker login ghcr.io --username <username> --password-stdin
 
 # Push image to GitHub Container Registry
-# > docker push ghcr.io/kasperfiskerdk/win64_msvc2022:0.2
+# > docker push ghcr.io/kasperfiskerdk/win64_msvc2022:0.3
 
 # escape=`
 
@@ -31,7 +31,7 @@ RUN choco feature disable -n showDownloadProgress
 
 # CMake and other tools
 RUN choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-RUN choco install 7zip curl git ninja
+RUN choco install 7zip curl git ninja nsis
 
 # Update the path to include 7-Zip
 RUN $env:Path += ';C:\Program Files\7-Zip'

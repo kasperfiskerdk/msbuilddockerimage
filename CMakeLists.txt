@@ -16,12 +16,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Make the environment variable QTDIR a CMake variable of the same name
 set(QTDIR $ENV{QTDIR})
 
 find_package(Qt5 COMPONENTS
     Core
     Quick
-    Multimedia LinguistTools
     REQUIRED
     PATHS ${QTDIR}
 )
@@ -31,21 +31,31 @@ add_executable(hello
     src/main.qrc
     .github/workflows/main.yml
     docker/Dockerfile
-    build_hello.bat
+    build_hello.ps1
+    cmake/CPackConfig.cmake.in
 )
 
 target_link_libraries(hello PRIVATE
     Qt5::Core
     Qt5::Quick
-    Qt5::Multimedia
 )
 
-# Install executable simpleton to CMAKE_INSTALL_PREFIX/CMAKE_INSTALL_BINDIR
-# which becomes /opt/yoyodyne/simpleton/bin/simpleton
+configure_file(cmake/CPackConfig.cmake.in CPackConfig.cmake @ONLY)
+
+# Install executable hello to CMAKE_INSTALL_PREFIX/CMAKE_INSTALL_BINDIR
+# which becomes
 install(
     TARGETS hello
     RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(
+    DIRECTORY ${CMAKE_BINARY_DIR}
+    DESTINATION bin
+    FILES_MATCHING PATTERN "*.qmlc" EXCLUDE
+    PATTERN ".debug" EXCLUDE
+    PATTERN "*"
 )
 
 # install(
@@ -53,4 +63,4 @@ install(
 #     DESTINATION ${CMAKE_INSTALL_BINDIR}
 # )
 
-# include(CPack)
+include(CPack)

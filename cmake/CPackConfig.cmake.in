@@ -1,0 +1,43 @@
+# Call
+#
+#     cpack -B ./build --config ./cmake/CPackConfig.cmake -C Release
+#
+# to package all files comprising the Hydrema MX terminal.
+
+include(CPackComponent)
+
+set(CPACK_PACKAGE_NAME hello)
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Installs hello")
+set(CPACK_PACKAGE_DESCRIPTION "The installer for the hello program is the end product of a tutorial about setting up GitHub to compile and package in windows")
+set(CPACK_PACKAGE_VENDOR "Viking Software")
+set(CPACK_PACKAGE_VERSION "@hello_VERSION@")
+
+#Installation directory on the target system.
+This may be used by some CPack generators like NSIS to create an installation directory
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "hello")
+
+# Values of variables prefixed with CPACK_ will be escaped before being written to the
+# configuration files, so that the cpack program receives them exactly as they were specified.
+# If not, characters like quotes and backslashes can cause parsing errors or alter the value
+# received by the cpack program
+set(CPACK_VERBATIM_VARIABLES TRUE )
+
+# Use Nullsoft Scriptable Install System to make an installer
+set(CPACK_GENERATOR NSIS)
+
+# Disable component install for NSIS. That is, install all or nothing.
+set(CPACK_NSIS_COMPONENT_INSTALL FALSE)
+
+# List of four values that specify what project to install. The four values are:
+# 1. Build directory
+# 2. Project Name
+# 3. Project Component
+# 4. Directory
+# If omitted, CPack will build an installer that installs everything.
+# set(CPACK_INSTALL_CMAKE_PROJECTS "@CMAKE_BINARY_DIR@;${CPACK_PACKAGE_NAME}/${CPACK_PACKAGE_NAME};ALL;/")
+
+# Specify the prefix used in the built package
+# set(CPACK_INSTALL_PREFIX "/opt")
+
+# The name of the package file to generate
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
